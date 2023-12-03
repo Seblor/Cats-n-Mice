@@ -1,0 +1,44 @@
+{
+  "commands": {
+    "set-game": {
+      "description": "Initialize the game",
+      "options": {
+        "channel": {
+          "name": "channel",
+          "description": "The channel where the game will be played"
+        },
+        "cat-role": {
+          "name": "reset-role",
+          "description": "The role that can reset the count"
+        },
+        "language": {
+          "name": "language",
+          "description": "The language of the game"
+        }
+      }
+    }
+  },
+  "interactions": {
+    "count-up": {
+      "too-soon": "You can't click yet! Wait until <t:{{delayTimestamp}}:R>."
+    },
+    "explanation-button": {
+      "explanation": "The goal is to reach the highest score possible by clicking the `$t(buttons.increment)` button. The button can only be pressed once every 10 minutes. If a server member with the <@&{{catRoleId}}> clicks on the `$t(buttons.increment)` button, the score is reset to 0."
+    }
+  },
+  "embed": {
+    "new-game": "New game!",
+    "title": "Current score: `{{score}}`",
+    "description": "You can click on the button once every 10 minutes.",
+    "footer": "High score of {{highScore}} by {{highScoreMemberName}}"
+  },
+  "messages": {
+    "increment": "<@{{memberId}}> rises to {{newScore}} !",
+    "reset": "Oh no, <@{{memberId}}> has been here ! The score is reset to 0."
+  },
+  "buttons": {
+    "increment": "+1",
+    "explanation": "How to play?",
+    "add-to-server": "Add to my server"
+  }
+}

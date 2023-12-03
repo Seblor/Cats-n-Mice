@@ -1,0 +1,44 @@
+{
+  "commands": {
+    "set-game": {
+      "description": "Initialise le jeu",
+      "options": {
+        "channel": {
+          "name": "salon",
+          "description": "Le salon où le jeu sera initialisé"
+        },
+        "cat-role": {
+          "name": "reset-role",
+          "description": "Le rôle qui peut réinitialiser le score"
+        },
+        "language": {
+          "name": "langue",
+          "description": "La langue du jeu"
+        }
+      }
+    }
+  },
+  "interactions": {
+    "count-up": {
+      "too-soon": "Vous ne pouvez pas cliquer maintenant ! Attendez <t:{{delayTimestamp}}:R>."
+    },
+    "explanation-button": {
+      "explanation": "Le but est d'atteindre le score le plus élevé possible en cliquant sur le bouton `$t(buttons.increment)`. Le bouton ne peut être cliqué qu'une seule fois toutes les 10 minutes. Si un membre du serveur avec le rôle <@&{{catRoleId}}> clique sur le bouton `$t(buttons.increment)`, le score est réinitialisé à 0."
+    }
+  },
+  "embed": {
+    "new-game": "Nouvelle partie !",
+    "title": "Score actuel : `{{score}}`",
+    "description": "Vous pouvez cliquer sur le bouton une fois toutes les 10 minutes.",
+    "footer": "Meilleur score : {{highScore}} par {{highScoreMemberName}}"
+  },
+  "messages": {
+    "increment": "<@{{memberId}}> monte à {{newScore}} !",
+    "reset": "Oh non, <@{{memberId}}> est passé par là ! Le score est réinitialisé à 0."
+  },
+  "buttons": {
+    "increment": "+1",
+    "explanation": "Comment jouer ?",
+    "add-to-server": "Ajouter à mon serveur"
+  }
+}
