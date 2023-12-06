@@ -15,6 +15,7 @@ const setGameCommand = {
       fr: i18next.t('commands.set-game.description', { lng: 'fr' })
     })
     .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
+    .setDMPermission(false)
     .addChannelOption(option => option
       .setName(i18next.t('commands.set-game.options.channel.name', { lng: 'en' }))
       .setNameLocalizations({
