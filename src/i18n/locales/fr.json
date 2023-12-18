@@ -23,13 +23,13 @@
       "too-soon": "Vous ne pouvez pas cliquer maintenant ! Attendez <t:{{delayTimestamp}}:R>."
     },
     "explanation-button": {
-      "explanation": "Le but est d'atteindre le score le plus élevé possible en cliquant sur le bouton `$t(buttons.increment)`. Le bouton ne peut être cliqué qu'une seule fois toutes les 10 minutes. Si un membre du serveur avec le rôle <@&{{catRoleId}}> clique sur le bouton `$t(buttons.increment)`, le score est réinitialisé à 0."
+      "explanation": "Le but est d'atteindre le score le plus élevé possible en cliquant sur le bouton `$t(buttons.increment)`. Le bouton ne peut être cliqué qu'une seule fois toutes les 5 minutes. Si un membre du serveur avec le rôle <@&{{catRoleId}}> clique sur le bouton `$t(buttons.increment)`, le score est réinitialisé à 0."
     }
   },
   "embed": {
     "new-game": "Nouvelle partie !",
     "title": "Score actuel : `{{score}}`",
-    "description": "Vous pouvez cliquer sur le bouton une fois toutes les 10 minutes.",
+    "description": "Vous pouvez cliquer sur le bouton une fois toutes les 5 minutes.",
     "footer": "Meilleur score : {{highScore}} par {{highScoreMemberName}}"
   },
   "messages": {

@@ -6,7 +6,11 @@ import { generateCountUpButton, generateExplanationButton, generateInviteServerB
 
 export const logo = new AttachmentBuilder('./assets/logo.webp').setName('logo.webp')
 
+const lastClickedButtonIds: Record<string, string> = {};
+
+const FIVE_SECONDS = 5e3;
 const TEN_SECONDS = 10e3;
+const FIVE_MINUTES = 5 * 60e3;
 const TEN_MINUTES = 10 * 60e3;
 
 export async function onCountUpButtonClick(inter: ButtonInteraction): Promise<Promise<void>> {
@@ -14,7 +18,7 @@ export async function onCountUpButtonClick(inter: ButtonInteraction): Promise<Pr
 
   const now = new Date();
 
-  const member = await inter.guild!.members.fetch(inter.member.user.id);
+  const member = inter.guild!.members.cache.get(inter.member.user.id) ?? await inter.guild!.members.fetch(inter.member.user.id);
 
   const data = getAllDataFromInteraction(inter);
 
@@ -22,7 +26,7 @@ export async function onCountUpButtonClick(inter: ButtonInteraction): Promise<Pr
 
   const language = data.language;
 
-  const minimumDateToClick = data.message.createdTimestamp + TEN_MINUTES;
+  const minimumDateToClick = data.message.createdTimestamp + FIVE_MINUTES;
 
   if (doesMemberHaveCatRole) {
     inter.deferUpdate();
@@ -32,7 +36,9 @@ export async function onCountUpButtonClick(inter: ButtonInteraction): Promise<Pr
     }
   } else {
 
-    if (data.currentScore > 0 && minimumDateToClick > now.getTime()) {
+    if (data.currentScore > 0 && minimumDateToClick > now.getTime()
+      || lastClickedButtonIds[inter.guildId] === inter.customId) {
+
       inter.reply({
         content: i18next.t('interactions.count-up.too-soon', {
           delayTimestamp: Math.round(minimumDateToClick / 1000),
@@ -43,12 +49,15 @@ export async function onCountUpButtonClick(inter: ButtonInteraction): Promise<Pr
       return;
     }
 
+    lastClickedButtonIds[inter.guildId] = inter.customId;
     miceButtonPress(inter, data);
   }
 
 }
 
 async function miceButtonPress(inter: ButtonInteraction, data: ReturnType<typeof getAllDataFromInteraction>) {
+
+  console.log(`[${new Date().toISOString()}] User ${inter.member!.user.username} clicked on the button ! Additional data : previous score ${data.currentScore}, memberId ${data.memberId}`);
 
   const member = inter.guild!.members.cache.get(inter.member!.user.id)!;
 

@@ -23,13 +23,13 @@
       "too-soon": "You can't click yet! Wait until <t:{{delayTimestamp}}:R>."
     },
     "explanation-button": {
-      "explanation": "The goal is to reach the highest score possible by clicking the `$t(buttons.increment)` button. The button can only be pressed once every 10 minutes. If a server member with the <@&{{catRoleId}}> clicks on the `$t(buttons.increment)` button, the score is reset to 0."
+      "explanation": "The goal is to reach the highest score possible by clicking the `$t(buttons.increment)` button. The button can only be pressed once every 5 minutes. If a server member with the <@&{{catRoleId}}> clicks on the `$t(buttons.increment)` button, the score is reset to 0."
     }
   },
   "embed": {
     "new-game": "New game!",
     "title": "Current score: `{{score}}`",
-    "description": "You can click on the button once every 10 minutes.",
+    "description": "You can click on the button once every 5 minutes.",
     "footer": "High score of {{highScore}} by {{highScoreMemberName}}"
   },
   "messages": {
