@@ -14,7 +14,7 @@ const FIVE_MINUTES = 5 * 60e3;
 const TEN_MINUTES = 10 * 60e3;
 
 export async function onCountUpButtonClick(inter: ButtonInteraction): Promise<Promise<void>> {
-  if (inter.guildId == null || inter.channelId == null || inter.member == null) return;
+  if (inter.guildId == null || inter.channelId == null || inter.member == null || lastClickedButtonIds[inter.channelId] === inter.customId) return;
 
   const now = new Date();
 
@@ -36,8 +36,7 @@ export async function onCountUpButtonClick(inter: ButtonInteraction): Promise<Pr
     }
   } else {
 
-    if (data.currentScore > 0 && minimumDateToClick > now.getTime()
-      || lastClickedButtonIds[inter.guildId] === inter.customId) {
+    if (data.currentScore > 0 && minimumDateToClick > now.getTime()) {
 
       inter.reply({
         content: i18next.t('interactions.count-up.too-soon', {
@@ -49,7 +48,7 @@ export async function onCountUpButtonClick(inter: ButtonInteraction): Promise<Pr
       return;
     }
 
-    lastClickedButtonIds[inter.guildId] = inter.customId;
+    lastClickedButtonIds[inter.channelId] = inter.customId;
     miceButtonPress(inter, data);
   }
 
