@@ -16,6 +16,27 @@
           "description": "La langue du jeu"
         }
       }
+    },
+    "edit-game": {
+      "description": "Édite le jeu dans le salon actuel",
+      "options": {
+        "highscore": {
+          "name": "highscore",
+          "description": "Le score le plus élevé"
+        },
+        "highscore-member": {
+          "name": "highscore-member",
+          "description": "Le membre avec le score le plus élevé"
+        },
+        "cat-role": {
+          "name": "reset-role",
+          "description": "$t(commands.set-game.options.cat-role)"
+        },
+        "language": {
+          "name": "language",
+          "description": "$t(commands.set-game.options.language)"
+        }
+      }
     }
   },
   "interactions": {

@@ -8,6 +8,7 @@ import setGameCommand from './commands/set-game'
 import { generateInvite } from './utils/misc'
 import { onCountUpButtonClick } from './interactions/countUpButton'
 import { explainGame } from './interactions/explanationButton'
+import editGameCommand from './commands/edit-game'
 
 
 const webhookClient = process.env.LOGS_WEBHOOK ? new WebhookClient({ url: process.env.LOGS_WEBHOOK }) : null
@@ -59,7 +60,8 @@ client.on('ready', async () => {
   console.log(generateInvite(client))
 
   client.application?.commands.set([
-    setGameCommand.command
+    setGameCommand.command,
+    editGameCommand.command
   ])
 
 })
@@ -76,6 +78,9 @@ client.on('interactionCreate', async (interaction: Interaction) => {
     const commandName = interaction.commandName;
     if (commandName === 'set-game') {
       await setGameCommand.run(interaction);
+    }
+    if (commandName === 'edit-game') {
+      await editGameCommand.run(interaction);
     }
   } else if (isButton) {
     if (interaction.customId.startsWith('count-')) {

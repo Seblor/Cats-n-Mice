@@ -139,7 +139,7 @@ async function catButtonPress(inter: ButtonInteraction, data: ReturnType<typeof 
   });
 }
 
-async function generateEmbed(data: ReturnType<typeof getAllDataFromInteraction>, newScore: number, clickingMemberId: string): Promise<EmbedBuilder> {
+export async function generateEmbed(data: ReturnType<typeof getAllDataFromInteraction>, newScore: number, clickingMemberId: string): Promise<EmbedBuilder> {
   let maxScore = data.maxScore;
   let maxScoreHolderId = data.recordHolderId;
 

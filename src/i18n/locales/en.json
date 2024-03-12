@@ -16,6 +16,27 @@
           "description": "The language of the game"
         }
       }
+    },
+    "edit-game": {
+      "description": "Edits the game in the current channel",
+      "options": {
+        "highscore": {
+          "name": "highscore",
+          "description": "The new highscore"
+        },
+        "highscore-member": {
+          "name": "highscore-member",
+          "description": "The member that holds the highscore"
+        },
+        "cat-role": {
+          "name": "reset-role",
+          "description": "$t(commands.set-game.options.cat-role)"
+        },
+        "language": {
+          "name": "language",
+          "description": "$t(commands.set-game.options.language)"
+        }
+      }
     }
   },
   "interactions": {
