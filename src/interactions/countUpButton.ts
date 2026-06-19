@@ -6,19 +6,22 @@ import { generateCountUpButton, generateExplanationButton, generateInviteServerB
 
 export const logo = new AttachmentBuilder('./assets/logo.webp').setName('logo.webp')
 
-const lastClickedButtonIds: Record<string, string> = {};
+// Used to prevent spamming the button and duplicating a "+1" button action
+const currentlyHandlingMessages: Record<string, boolean> = {};
 
 const FIVE_SECONDS = 5e3;
 const TEN_SECONDS = 10e3;
 const FIVE_MINUTES = 5 * 60e3;
 const TEN_MINUTES = 10 * 60e3;
 
-export async function onCountUpButtonClick(inter: ButtonInteraction): Promise<Promise<void>> {
-  if (inter.guildId == null || inter.channelId == null || inter.member == null || lastClickedButtonIds[inter.channelId] === inter.customId) return;
+export async function onCountUpButtonClick (inter: ButtonInteraction): Promise<Promise<void>> {
+  if (inter.guild == null || inter.channelId == null || inter.member == null || inter.message.id in currentlyHandlingMessages) return;
+
+  currentlyHandlingMessages[inter.message.id] = true; // Set the current message as currently handling to avoid duplicates
 
   const now = new Date();
 
-  const member = inter.guild!.members.cache.get(inter.member.user.id) ?? await inter.guild!.members.fetch(inter.member.user.id);
+  const member = inter.guild.members.cache.get(inter.member.user.id) ?? await inter.guild.members.fetch(inter.member.user.id);
 
   const data = getAllDataFromInteraction(inter);
 
@@ -32,7 +35,17 @@ export async function onCountUpButtonClick(inter: ButtonInteraction): Promise<Pr
     inter.deferUpdate();
 
     if (data.currentScore !== 0) {
-      catButtonPress(inter, data);
+      catButtonPress(inter, data).finally(() => {
+        setTimeout(() => {
+          delete currentlyHandlingMessages[inter.message.id];
+        }, 2e3);
+      });
+    } else {
+
+
+      setTimeout(() => {
+        delete currentlyHandlingMessages[inter.message.id];
+      }, 2e3);
     }
   } else {
 
@@ -45,16 +58,26 @@ export async function onCountUpButtonClick(inter: ButtonInteraction): Promise<Pr
         }),
         ephemeral: true,
       });
+
+
+      setTimeout(() => {
+        delete currentlyHandlingMessages[inter.message.id];
+      }, 2e3);
       return;
     }
 
-    lastClickedButtonIds[inter.channelId] = inter.customId;
-    miceButtonPress(inter, data);
+    miceButtonPress(inter, data).finally(() => {
+
+
+      setTimeout(() => {
+        delete currentlyHandlingMessages[inter.message.id];
+      }, 2e3);
+    });
   }
 
 }
 
-async function miceButtonPress(inter: ButtonInteraction, data: ReturnType<typeof getAllDataFromInteraction>) {
+async function miceButtonPress (inter: ButtonInteraction, data: ReturnType<typeof getAllDataFromInteraction>) {
 
   console.log(`[${new Date().toISOString()}] User ${inter.member!.user.username} clicked on the button ! Additional data : previous score ${data.currentScore}, memberId ${data.memberId}`);
 
@@ -98,7 +121,7 @@ async function miceButtonPress(inter: ButtonInteraction, data: ReturnType<typeof
   });
 }
 
-async function catButtonPress(inter: ButtonInteraction, data: ReturnType<typeof getAllDataFromInteraction>) {
+async function catButtonPress (inter: ButtonInteraction, data: ReturnType<typeof getAllDataFromInteraction>) {
 
   const member = inter.guild!.members.cache.get(inter.member!.user.id)!;
 
@@ -139,7 +162,7 @@ async function catButtonPress(inter: ButtonInteraction, data: ReturnType<typeof 
   });
 }
 
-export async function generateEmbed(data: ReturnType<typeof getAllDataFromInteraction>, newScore: number, clickingMemberId: string): Promise<EmbedBuilder> {
+export async function generateEmbed (data: ReturnType<typeof getAllDataFromInteraction>, newScore: number, clickingMemberId: string): Promise<EmbedBuilder> {
   let maxScore = data.maxScore;
   let maxScoreHolderId = data.recordHolderId;
 

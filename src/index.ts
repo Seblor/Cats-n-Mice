@@ -75,6 +75,8 @@ client.on('interactionCreate', async (interaction: Interaction) => {
   const isButton = interaction.isButton();
 
   if (isChatInputCommand) {
+    console.log(`[${new Date().toISOString()} - ${interaction.guildId}]`, interaction.id, interaction.commandName);
+
     const commandName = interaction.commandName;
     if (commandName === 'set-game') {
       await setGameCommand.run(interaction);
@@ -83,6 +85,8 @@ client.on('interactionCreate', async (interaction: Interaction) => {
       await editGameCommand.run(interaction);
     }
   } else if (isButton) {
+    console.log(`[${new Date().toISOString()} - ${interaction.guildId}]`, interaction.id, interaction.customId);
+
     if (interaction.customId.startsWith('count-')) {
       onCountUpButtonClick(interaction);
     } else if (interaction.customId.startsWith('explanation-')) {
